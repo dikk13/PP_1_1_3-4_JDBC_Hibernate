@@ -23,7 +23,7 @@ public class Util {
     private static StandardServiceRegistry registry;
 
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             connection.setAutoCommit(false);

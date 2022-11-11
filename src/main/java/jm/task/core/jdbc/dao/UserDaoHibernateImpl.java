@@ -20,7 +20,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            String SQL = "CREATE TABLE IF NOT EXISTS users(" +
+            String SQL = "CREATE TABLE IF NOT EXISTS users_1_1_3_4(" +
                     "id LONG, " +
                     "name varchar(45), " +
                     "lastName varchar(45), " +
@@ -48,7 +48,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            String SQL = "DROP TABLE IF EXISTS users";
+            String SQL = "DROP TABLE IF EXISTS users_1_1_3_4";
             Query query = session.createSQLQuery(SQL);
             query.executeUpdate();
             transaction.commit();

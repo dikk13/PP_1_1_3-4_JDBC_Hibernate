@@ -47,7 +47,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
     public void saveUser(String name, String lastName, byte age) throws SQLException {
         try (PreparedStatement preparedStatement = connection.
-                prepareStatement("INSERT INTO users VALUES(1, ?, ?, ?)") )
+                prepareStatement("INSERT INTO users_1_1_3_4 VALUES(1, ?, ?, ?)") )
         {
             Connection connection = Util.getConnection();
             preparedStatement.execute("BEGIN ");
@@ -64,7 +64,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
     public void removeUserById(long id) throws SQLException {
         try (PreparedStatement preparedStatement = connection.
-                prepareStatement("DELETE FROM users WHERE id = ?"))
+                prepareStatement("DELETE FROM users_1_1_3_4 WHERE id = ?"))
         {
             Connection connection = Util.getConnection();
             preparedStatement.execute("BEGIN ");
@@ -79,7 +79,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = Util.getConnection().
-                prepareStatement("SELECT * FROM users"))
+                prepareStatement("SELECT * FROM users_1_1_3_4"))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -99,7 +99,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = connection.createStatement())
         {
             Connection connection = Util.getConnection();
-            String SQL = "TRUNCATE TABLE users";
+            String SQL = "TRUNCATE TABLE users_1_1_3_4";
             statement.execute("BEGIN ");
             statement.execute(SQL);
             connection.commit();

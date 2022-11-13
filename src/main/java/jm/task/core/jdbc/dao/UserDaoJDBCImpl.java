@@ -13,12 +13,11 @@ public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 
     }
-    Connection connection = null;
     public void createUsersTable() throws SQLException {
-        try (Statement statement = connection.createStatement())
+        try (Connection connection = Util.getConnection())
         {
-            connection = Util.getConnection();
-            String SQL = "CREATE TABLE IF NOT EXISTS users(" +
+            Statement statement = connection.createStatement();
+            String SQL = "CREATE TABLE IF NOT EXISTS users_1_1_3_4(" +
                     "id LONG," +
                     "name varchar(45)," +
                     "lastName varchar(45)," +
@@ -28,28 +27,26 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
         }catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         }
 
     }
     public void dropUsersTable() throws SQLException {
-        try (Statement statement = connection.createStatement())
+        try (Connection connection = Util.getConnection())
         {
-            Connection connection = Util.getConnection();
-            String SQL = "DROP TABLE IF EXISTS users";
+            Statement statement = connection.createStatement();
+            String SQL = "DROP TABLE IF EXISTS users_1_1_3_4";
             statement.execute("BEGIN ");
             statement.execute(SQL);
             connection.commit();
         }catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         }
     }
     public void saveUser(String name, String lastName, byte age) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.
-                prepareStatement("INSERT INTO users_1_1_3_4 VALUES(1, ?, ?, ?)") )
+        try (Connection connection = Util.getConnection())
         {
-            Connection connection = Util.getConnection();
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("INSERT INTO users_1_1_3_4 VALUES(id, ?, ?, ?)");
             preparedStatement.execute("BEGIN ");
             preparedStatement.setString(1,name);
             preparedStatement.setString(2, lastName);
@@ -59,28 +56,26 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("User с именем " + name + " добавлен в базу данных");
         }catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         }
     }
     public void removeUserById(long id) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.
-                prepareStatement("DELETE FROM users_1_1_3_4 WHERE id = ?"))
+        try (Connection connection = Util.getConnection())
         {
-            Connection connection = Util.getConnection();
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("DELETE FROM users_1_1_3_4 WHERE id = ?");
             preparedStatement.execute("BEGIN ");
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         }
     }
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement preparedStatement = Util.getConnection().
-                prepareStatement("SELECT * FROM users_1_1_3_4"))
+        try (Connection connection = Util.getConnection())
         {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users_1_1_3_4");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
@@ -96,16 +91,15 @@ public class UserDaoJDBCImpl implements UserDao {
         return users;
     }
     public void cleanUsersTable() throws SQLException {
-        try (Statement statement = connection.createStatement())
+        try (Connection connection = Util.getConnection())
         {
-            Connection connection = Util.getConnection();
+            Statement statement = connection.createStatement();
             String SQL = "TRUNCATE TABLE users_1_1_3_4";
             statement.execute("BEGIN ");
             statement.execute(SQL);
             connection.commit();
         }catch (SQLException e) {
             e.printStackTrace();
-            connection.rollback();
         }
     }
 }
